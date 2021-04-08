@@ -59,7 +59,6 @@ void communicate_with_clients(server_t *server, clients_data_t *clients)
             exec_command(buffer, tmp, server);
             if (tmp->return_code != DISCONNECT_USER)
                 dprintf(tmp->fd, "%i %s", tmp->return_code, tmp->msg);
-            dprintf(1,"buffer: %s\n%i %s\n", buffer, tmp->return_code, tmp->msg);
             free(buffer);
         }
     }
