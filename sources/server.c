@@ -5,6 +5,8 @@
 ** make_socket
 */
 
+#include <asm-generic/socket.h>
+#include <netinet/in.h>
 #include <sys/select.h>
 #include <unistd.h>
 #include <string.h>
@@ -38,7 +40,7 @@ int accept_new_client(int server_socket, struct sockaddr_in *server)
     } else {
         printf("New connection:\n    ip   :%s\n    port :%d\n\n",
                 inet_ntoa(server->sin_addr), ntohs(server->sin_port));
-        write(client_socket, "220 Welcome\r\n", strlen("220 Welcome\r\n"));
+        dprintf(client_socket, "220 Service ready for new user.\r\n");
     }
     return client_socket;
 }
@@ -58,10 +60,11 @@ int make_socket(int port, struct sockaddr_in *server)
         perror("socket");
         return socket_serv;
     }
-    setsockopt(socket_serv, SOL_SOCKET, SO_REUSEADDR, (char *)&opt,
-            sizeof(opt));
+    /*setsockopt(socket_serv, SOL_SOCKET, SO_REUSEADDR |*/
+            /*SO_REUSEPORT, (char *)&opt,*/
+            /*sizeof(opt));*/
     server->sin_family = AF_INET;
-    server->sin_addr.s_addr = INADDR_ANY;
+    server->sin_addr.s_addr = htonl(INADDR_ANY);
     server->sin_port = htons(port);
     if (bind(socket_serv, (struct sockaddr *)server , sizeof(*server)) < 0) {
         perror("bind");

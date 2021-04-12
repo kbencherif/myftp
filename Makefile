@@ -65,10 +65,9 @@ END=\x1b[0m
 all: $(NAME)
 
 $(BUILD_DIR):
-	@echo -e "$(BLUE)Create build directory$(END)"
-	mkdir -p $(BUILD_DIR)/functions
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(BUILD_DIR)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
