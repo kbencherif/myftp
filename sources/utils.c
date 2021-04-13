@@ -11,7 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 
-bool is_valid_dir(char *str, char *env[])
+bool is_valid_dir(char *str)
 {
     char *root = calloc(strlen(str) + 3, 1);
 
@@ -32,7 +32,7 @@ bool is_number(char *str)
     return true;
 }
 
-int is_space(char c)
+int is_to_clean(char c)
 {
     return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }
@@ -44,12 +44,12 @@ char *clean_str(char *str)
     int str_len = strlen(str);
     char *cleaned_str = malloc(sizeof(char) * (str_len + 1));
 
-    for (; is_space(str[i]); i++);
+    for (; is_to_clean(str[i]); i++);
     while (str[i]) {
-        if (is_space(str[i]) && !is_space(str[i + 1]) && str[i + 1]) {
+        if (is_to_clean(str[i]) && !is_to_clean(str[i + 1]) && str[i + 1]) {
             cleaned_str[j] = ' ';
             j++;
-        } else if (!is_space(str[i])) {
+        } else if (!is_to_clean(str[i])) {
             cleaned_str[j] = str[i];
             j++;
         }

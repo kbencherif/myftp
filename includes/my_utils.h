@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include "functions.h"
 
-bool is_valid_dir(char *str, char *env[]);
+bool is_valid_dir(char *str);
 bool is_number(char *str);
 char *clean_str(char *str);
 

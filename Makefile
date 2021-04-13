@@ -47,7 +47,7 @@ TEST_OBJS 	= 	$(patsubst $(TEST_DIR)/%.c, $(BUILD_TEST_DIR)/%.o, $(TEST_SRCS))
 
 CFLAGS 	= 	-I $(ROOT)/includes -g
 
-LDFLAGS 	= 	-lcriterion --coverage
+LDFLAGS 	=
 
 WARN 	= 	-W -Wall -Wextra
 
@@ -81,7 +81,10 @@ all: $(NAME)
 
 tests_run: CFLAGS += -D __TESTS_RUN__
 
+tests_run: LDFLAGS += --coverage -lcriterion
+
 tests_run: $(TEST_NAME)
+#	mv $(BUILD_DIR)/*gc* $(ROOT)
 	./$(TEST_NAME)
 
 $(BUILD_TEST_DIR)/%.o: $(TEST_DIR)/%.c
@@ -90,7 +93,7 @@ $(BUILD_TEST_DIR)/%.o: $(TEST_DIR)/%.c
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(LDFLAGS) $(CFLAGS) -c $< -o $@
 
 $(TEST_NAME): $(TEST_OBJS) $(OBJS)
 	@echo -e "$(GREEN)Compile sources$(END)"
