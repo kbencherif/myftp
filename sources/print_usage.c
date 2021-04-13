@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-int print_usage()
+int print_usage(void)
 {
     printf("USAGE: ./myftp port path\n");
     printf("       port  is the port number on which the server socket listens"

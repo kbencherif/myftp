@@ -29,8 +29,8 @@ char *read_file(int fd)
 
 void send_file_to_client(clients_data_t *client, int file_fd)
 {
-    struct sockaddr_in address;
-    size_t addrlen = sizeof(address);
+    struct sockaddr_in addr;
+    size_t addrlen = sizeof(addr);
     int fd = -1;
     fd_set rfds;
     char *file_content;
@@ -39,10 +39,11 @@ void send_file_to_client(clients_data_t *client, int file_fd)
         dprintf(client->fd, "%i Failed to open file.\r\n", ERROR);
         exit(0);
     }
-    getpeername(client->fd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
+    getpeername(client->fd, (struct sockaddr *)&addr, (socklen_t *)&addrlen);
     reset_server(client->data_fd, &rfds);
     select(client->data_fd + 1, &rfds, NULL, NULL, NULL);
-    fd = accept(client->data_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
+    fd = accept(client->data_fd,
+            (struct sockaddr *)&addr, (socklen_t *)&addrlen);
     file_content = read_file(file_fd);
     dprintf(fd, "%s", file_content);
     close(file_fd);
