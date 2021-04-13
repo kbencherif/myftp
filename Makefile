@@ -4,12 +4,17 @@ CC 	= 	gcc
 
 NAME 	= 	myftp
 
+TEST_NAME 	= 	unit_test
+
 ROOT 	= 	.
 
 SRC_DIR 	= 	$(ROOT)/sources
 
 BUILD_DIR 	= 	$(ROOT)/build
 
+TEST_DIR 	= 	$(ROOT)/tests
+
+BUILD_TEST_DIR 	= 	$(ROOT)/test_build
 
 SRC 	= 	main.c 					 				\
 			print_usage.c 			 				\
@@ -30,14 +35,24 @@ SRC 	= 	main.c 					 				\
 			functions/list_directory.c 		 		\
 			functions/active_mode.c 				\
 
+TEST_SRC 	= 	tests.c 	\
+
 SRCS 	= 	$(addprefix $(SRC_DIR)/, $(SRC))
 
 OBJS 	= 	$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
+TEST_SRCS 	= 	$(addprefix $(TEST_DIR)/, $(TEST_SRC))
+
+TEST_OBJS 	= 	$(patsubst $(TEST_DIR)/%.c, $(BUILD_TEST_DIR)/%.o, $(TEST_SRCS))
+
 CFLAGS 	= 	-I $(ROOT)/includes -g
+
+LDFLAGS 	= 	-lcriterion --coverage
 
 WARN 	= 	-W -Wall -Wextra
 
+TMP 	= 	*.gc* 	\
+			vg* 	\
 
 # Colors
 
@@ -64,11 +79,24 @@ END=\x1b[0m
 
 all: $(NAME)
 
-$(BUILD_DIR):
+tests_run: CFLAGS += -D __TESTS_RUN__
+
+tests_run: $(TEST_NAME)
+	./unit_test
+
+$(BUILD_TEST_DIR)/%.o: $(TEST_DIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TEST_NAME): $(TEST_OBJS) $(OBJS)
+	@echo -e "$(GREEN)Compile sources$(END)"
+	@echo -e "$(GREEN)Compile unit tests$(END)"
+	@echo -e "$(GREEN)Links objects$(END)"
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(WARN) $(OBJS) $(TEST_OBJS)
 
 $(NAME): $(OBJS)
 	@echo -e "$(GREEN)Compile sources$(END)"
@@ -77,13 +105,14 @@ $(NAME): $(OBJS)
 
 clean:
 	@echo -e "$(RED)Deletes tmp$(END)"
-	rm -rf vg*
-	rm -rf $(OBJS)
+	rm -rf $(TMP)
 	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_TEST_DIR)
 
 fclean: clean
 	@echo -e "$(RED)Deletes binary$(END)"
 	rm -rf $(NAME)
+	rm -rf $(TEST_NAME)
 
 re: fclean all
 	@echo -e "$(YELLOW)Recompile$(END)"

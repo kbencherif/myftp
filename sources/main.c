@@ -48,6 +48,8 @@ int run_ftp(int port, char *dir)
     }
 }
 
+#ifndef __TESTS_RUN__
+
 int main(int argc , char *argv[], char *env[])
 {
     int status = 0;
@@ -56,4 +58,7 @@ int main(int argc , char *argv[], char *env[])
         return print_usage();
     if (argc == 3 && is_number(argv[1]) && is_valid_dir(argv[2], env))
         return run_ftp(atoi(argv[1]),  getcwd(NULL, 0));
+    return 84;
 }
+
+#endif
