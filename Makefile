@@ -4,7 +4,7 @@ CC 	= 	gcc
 
 NAME 	= 	myftp
 
-TEST_NAME 	= 	unit_test
+TEST_NAME 	= 	unit_tests
 
 ROOT 	= 	.
 
@@ -82,7 +82,7 @@ all: $(NAME)
 tests_run: CFLAGS += -D __TESTS_RUN__
 
 tests_run: $(TEST_NAME)
-	./unit_test
+	./$(TEST_NAME)
 
 $(BUILD_TEST_DIR)/%.o: $(TEST_DIR)/%.c
 	mkdir -p $(dir $@)
