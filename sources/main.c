@@ -56,7 +56,7 @@ int main(int argc , char *argv[], char *env[])
 
     if (argc == 2 && !strcmp(argv[1], "-help"))
         return print_usage();
-    if (argc == 3 && is_number(argv[1]) && is_valid_dir(argv[2], env))
+    if (argc == 3 && is_number(argv[1]) && is_valid_dir(argv[2]))
         return run_ftp(atoi(argv[1]),  getcwd(NULL, 0));
     return 84;
 }
