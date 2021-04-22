@@ -70,7 +70,7 @@ int make_socket(int port, struct sockaddr_in *server)
         perror("bind");
         return -1;
     }
-    if (listen(socket_serv , 3)) {
+    if (listen(socket_serv , 3) < 0) {
         perror("listen");
         return -1;
     }
