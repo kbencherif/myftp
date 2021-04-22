@@ -60,9 +60,9 @@ int make_socket(int port, struct sockaddr_in *server)
         perror("socket");
         return socket_serv;
     }
-    /*setsockopt(socket_serv, SOL_SOCKET, SO_REUSEADDR |*/
-            /*SO_REUSEPORT, (char *)&opt,*/
-            /*sizeof(opt));*/
+    setsockopt(socket_serv, SOL_SOCKET, SO_REUSEADDR |
+            SO_REUSEPORT, (char *)&opt,
+            sizeof(opt));
     server->sin_family = AF_INET;
     server->sin_addr.s_addr = htonl(INADDR_ANY);
     server->sin_port = htons(port);
