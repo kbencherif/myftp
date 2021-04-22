@@ -13,11 +13,7 @@
 
 bool is_valid_dir(char *str)
 {
-    char *root = calloc(strlen(str) + 3, 1);
-
-    strcpy(root, "./");
-    strcat(root, str);
-    if (!chdir(root)) {
+    if (!chdir(str)) {
         return true;
     } else {
         return false;
