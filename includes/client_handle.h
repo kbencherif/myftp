@@ -41,6 +41,7 @@ static const command_t COMMANDS[] = {
     {"dele", delete_file},
     {"list", list_directory},
     {"port", active_mode},
+    {"help", help_commands},
     {NULL, NULL}
 };
 

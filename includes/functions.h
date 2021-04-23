@@ -29,7 +29,7 @@ enum CODE {
     USER_FIRST = 503,
     INCORRECT = 530,
     ERROR = 550,
-    DISCONNECT_USER = 220
+    DISCONNECT_USER = 221
 };
 
 typedef struct clients_data_s {
