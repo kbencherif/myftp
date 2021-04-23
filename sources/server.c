@@ -28,12 +28,11 @@ int put_socket_in_set(fd_set *rfds, clients_data_t *clients, int max_socket)
     return max_socket;
 }
 
-
 int accept_new_client(int server_socket, struct sockaddr_in *server)
 {
     int addrlen = sizeof(*server);
     int client_socket = accept(server_socket, (struct sockaddr *)server,
-            (socklen_t*)&addrlen);
+            (socklen_t *)&addrlen);
 
     if (client_socket < 0) {
         perror("accept");
@@ -61,8 +60,7 @@ int make_socket(int port, struct sockaddr_in *server)
         return socket_serv;
     }
     setsockopt(socket_serv, SOL_SOCKET, SO_REUSEADDR |
-            SO_REUSEPORT, (char *)&opt,
-            sizeof(opt));
+            SO_REUSEPORT, (char *)&opt, sizeof(opt));
     server->sin_family = AF_INET;
     server->sin_addr.s_addr = htonl(INADDR_ANY);
     server->sin_port = htons(port);

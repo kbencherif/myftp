@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-
 void send_list_data(clients_data_t *client)
 {
     struct sockaddr_in addr;
@@ -33,7 +32,6 @@ void send_list_data(clients_data_t *client)
     dprintf(client->fd, "%i Directory send OK.\r\n", TRANSFER_GOOD);
     close(fd);
     exit(0);
-
 }
 
 void list_directory(char *value, clients_data_t *client, server_t *server)

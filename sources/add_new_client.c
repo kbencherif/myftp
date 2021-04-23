@@ -33,7 +33,7 @@ clients_data_t *add_new_client(int fd, clients_data_t *clients, char *dir)
 
     if (!tmp)
         return set_up_new_client(fd, dir);
-    for(; tmp->fd != 0 && tmp->next; tmp = tmp->next);
+    for (; tmp->fd != 0 && tmp->next; tmp = tmp->next);
     if (tmp->fd == 0 && fd >0)
         tmp->fd = fd;
     else

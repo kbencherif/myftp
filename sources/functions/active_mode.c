@@ -16,8 +16,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-int create_passive_socket(int ip, port_t port);
-
 int get_size(char *value)
 {
     int nb = 0;
@@ -70,11 +68,11 @@ bool is_valid_data(char **data)
 
 int create_pass_socket(int ip, port_t port)
 {
-    int	sock = -1;
+    int	sock = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in addr;
     size_t addrlen = 0;
 
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    if (sock == -1)
         return (-1);
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = ip;

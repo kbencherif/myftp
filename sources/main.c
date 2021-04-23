@@ -49,7 +49,6 @@ int run_ftp(int port, char *dir)
 }
 
 #ifndef __TESTS_RUN__
-
 int main(int argc , char *argv[], char *env[])
 {
     int status = 0;
@@ -60,5 +59,4 @@ int main(int argc , char *argv[], char *env[])
         return run_ftp(atoi(argv[1]),  getcwd(NULL, 0));
     return 84;
 }
-
 #endif

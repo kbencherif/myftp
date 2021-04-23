@@ -27,5 +27,6 @@ typedef struct port_s {
 void reset_server(int server_socket, fd_set *rfds);
 int make_socket(int port, struct sockaddr_in *server);
 int accept_new_client(int server_socket, struct sockaddr_in *server);
+int create_passive_socket(int ip, port_t port);
 
 #endif
