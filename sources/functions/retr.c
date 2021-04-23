@@ -36,7 +36,6 @@ void send_file_to_client(clients_data_t *client, int file_fd)
     char *file_content;
 
     if (file_fd < 0) {
-        dprintf(client->fd, "%i Failed to open file.\r\n", ERROR);
         exit(0);
     }
     getpeername(client->fd, (struct sockaddr *)&addr, (socklen_t *)&addrlen);
@@ -58,12 +57,15 @@ void upload_file(char *value, clients_data_t *client, server_t *server)
     if (!client->is_connected || client->data_fd < 0)
         return error_handling(client);
     cpid = fork();
+    if (new_file == -1) {
+        dprintf(client->fd, "%i Failed to open file.\r\n", ERROR);
+        return;
+    }
+    client->msg = "Opening Binary mode data connection.\r\n";
+    client->return_code = 150;
     if (cpid == 0) {
         send_file_to_client(client, new_file);
         dprintf(client->fd, "%i Transfer complete.\r\n", TRANSFER_GOOD);
         exit(0);
-    } else {
-        client->msg = "Opening Binary mode data connection.\r\n";
-        client->return_code = 150;
     }
 }
