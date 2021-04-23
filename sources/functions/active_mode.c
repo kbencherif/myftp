@@ -16,6 +16,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+int create_passive_socket(int ip, port_t port);
+
 int get_size(char *value)
 {
     int nb = 0;
@@ -87,10 +89,17 @@ int create_pass_socket(int ip, port_t port)
 struct sockaddr_in set_up_address(char **data)
 {
     struct sockaddr_in address;
+
     size_t size = strlen(data[0]) + strlen(data[1]) +
         strlen(data[2]) + strlen(data[3]) + 4;
     char *add = calloc(size, 1);
 
+    for (int i = 0; data[i] && i != 4; i++) {
+        add = strcat(add, data[i]);
+        if (i != 3)
+            strcat(add, ".");
+    }
+    dprintf(1, "%s\n", add);
     inet_aton(add, &address.sin_addr);
     return address;
 }
@@ -114,7 +123,7 @@ void active_mode(char *value, clients_data_t *client, server_t *server)
     address = set_up_address(data);
     port.p1 = atoi(data[4]);
     port.p2 = atoi(data[5]);
-    client->data_fd = create_pass_socket(address.sin_addr.s_addr, port);
+    client->data_fd = create_passive_socket(address.sin_addr.s_addr, port);
     client->msg = "PORT command successful\r\n";
     client->return_code = NOOP;
 }
