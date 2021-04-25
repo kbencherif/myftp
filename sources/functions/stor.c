@@ -41,7 +41,9 @@ void read_file_from_client
     if (!client->is_connected || client->data_fd < 0)
         return error_handling(client);
     if (new_file < 0) {
-        dprintf(client->fd, "%i Failed to open file.\r\n", ERROR);
+        client->msg = "Failed to open file.\r\n";
+        client->return_code = ERROR;
+        close(client->data_fd);
         return;
     }
     client->msg = "Opening Binary mode data connection.\r\n";
@@ -52,4 +54,6 @@ void read_file_from_client
         dprintf(client->fd, "%i Transfer complete.\r\n", TRANSFER_GOOD);
         exit(0);
     }
+    close(client->data_fd);
+    close(new_file);
 }

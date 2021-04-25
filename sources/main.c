@@ -12,6 +12,7 @@
 #include "server.h"
 #include "my_utils.h"
 #include "client_handle.h"
+#include <time.h>
 
 server_t set_up_server(int port)
 {
@@ -53,6 +54,7 @@ int main(int argc , char *argv[], char *env[])
 {
     int status = 0;
 
+    srand(time(NULL));
     if (argc == 2 && !strcmp(argv[1], "-help"))
         return print_usage();
     if (argc == 3 && is_number(argv[1]) && is_valid_dir(argv[2]))

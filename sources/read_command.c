@@ -56,6 +56,7 @@ void communicate_with_clients(server_t *server, clients_data_t *clients)
             FD_CLR(tmp->fd, &server->rfds);
             buffer = read_socket(tmp->fd);
             buffer = clean_str(buffer);
+            printf("command: %s\n", buffer);
             exec_command(buffer, tmp, server);
             if (tmp->return_code != DISCONNECT_USER)
                 dprintf(tmp->fd, "%i %s", tmp->return_code, tmp->msg);

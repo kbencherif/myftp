@@ -21,7 +21,6 @@ port_t generate_port(void)
 {
     port_t port;
 
-    srand(time(NULL));
     port.p1 = rand() % 200;
     port.p2 = rand() % 150;
     return port;
