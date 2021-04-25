@@ -44,7 +44,7 @@ int run_ftp(int port, char *dir)
         if (FD_ISSET(server.socket, &server.rfds))
             clients_list = add_new_client(
                     accept_new_client(server.socket, &server.address),
-                 clients_list, dir);
+                    clients_list, dir);
         communicate_with_clients(&server, clients_list);
     }
 }

@@ -35,6 +35,7 @@ SRC 	= 	main.c 					 				\
 			functions/list_directory.c 		 		\
 			functions/active_mode.c 				\
 			functions/help.c  						\
+			functions/active_utils.c  				\
 
 TEST_SRC 	= 	tests.c 	\
 

@@ -20,4 +20,3 @@ void error_handling(clients_data_t *client)
     if (client->data_fd < 0)
         return no_mode_error(client);
 }
-

@@ -11,6 +11,9 @@
 #include <stdbool.h>
 #include "functions.h"
 
+void error_command(clients_data_t *client);
+void bad_argument_error(clients_data_t *client);
+int get_size(char *value);
 bool is_valid_dir(char *str);
 bool is_number(char *str);
 char *clean_str(char *str);

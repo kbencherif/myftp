@@ -11,7 +11,7 @@ int print_usage(void)
 {
     printf("USAGE: ./myftp port path\n");
     printf("       port  is the port number on which the server socket listens"
-            );
+          );
     putchar('\n');
     printf("       path  is the path to the home directory for the Anonymous");
     printf(" user\n");

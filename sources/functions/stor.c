@@ -32,8 +32,8 @@ void get_file_from_client(clients_data_t *client, int file_fd)
     close(fd);
 }
 
-void read_file_from_client
-    (char *value, clients_data_t *client, server_t *server)
+void read_file_from_client(char *value, clients_data_t *client,
+        server_t *server)
 {
     int cpid = -1;
     int new_file = open(value, O_CREAT | O_RDWR, 0666);

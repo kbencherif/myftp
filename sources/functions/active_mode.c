@@ -16,19 +16,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-int get_size(char *value)
-{
-    int nb = 0;
-
-    if (!value)
-        return 0;
-    for (int i = 0; value[i]; i++) {
-        if (value[i] == ',')
-            nb++;
-    }
-    return nb;
-}
-
 char **get_data(char *value)
 {
     int size = get_size(value);
@@ -47,12 +34,6 @@ char **get_data(char *value)
     to_return[size + 1] = NULL;
     to_return[0] += 1;
     return to_return;
-}
-
-void bad_argument_error(clients_data_t *client)
-{
-    client->msg = "Bad argument.\n\r";
-    client->return_code = BAD_ARGUMENT;
 }
 
 bool is_valid_data(char **data)
@@ -102,11 +83,6 @@ struct sockaddr_in set_up_address(char **data)
     return address;
 }
 
-void error_command(clients_data_t *client)
-{
-    client->return_code = 520;
-    client->msg = "Illegal PORT command\r\n";
-}
 
 void active_mode(char *value, clients_data_t *client, server_t *server)
 {
