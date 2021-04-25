@@ -42,11 +42,12 @@ void send_file_to_client(clients_data_t *client, int file_fd)
             (struct sockaddr *)&addr, (socklen_t *)&addrlen);
     file_content = read_file(file_fd);
     dprintf(fd, "%s", file_content);
+    dprintf(client->fd, "%i Transfer complete.\r\n", TRANSFER_GOOD);
+    exit(0);
 }
 
 void upload_file(char *value, clients_data_t *client, server_t *server)
 {
-    int cpid = -1;
     int new_file = open(value, O_RDWR);
 
     if (!client->is_connected || client->data_fd < 0)
@@ -57,15 +58,13 @@ void upload_file(char *value, clients_data_t *client, server_t *server)
         close(client->data_fd);
         return;
     }
-    cpid = fork();
-    if (cpid == 0) {
+    if (fork() == 0) {
         send_file_to_client(client, new_file);
-        dprintf(client->fd, "%i Transfer complete.\r\n", TRANSFER_GOOD);
-        exit(0);
     } else {
         client->msg = "Opening Binary mode data connection.\r\n";
         client->return_code = 150;
     }
     close(new_file);
     close(client->data_fd);
+    client->data_fd = -1;
 }

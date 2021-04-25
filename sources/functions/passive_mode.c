@@ -31,6 +31,7 @@ int create_passive_socket(int ip, port_t port)
     int	sock = -1;
     struct sockaddr_in addr;
     size_t addrlen = 0;
+    int opt = 1;
 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1)
         return (-1);
@@ -38,6 +39,8 @@ int create_passive_socket(int ip, port_t port)
     addr.sin_addr.s_addr = ip;
     addr.sin_port = htons(port.p1 * 256 + port.p2);
     addrlen = sizeof(addr);
+    setsockopt(sock, SOL_SOCKET, SO_REUSEADDR |
+            SO_REUSEPORT, (char *)&opt, sizeof(opt));
     if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1 ||
             listen(sock, FD_SETSIZE) == -1)
         return (-1);

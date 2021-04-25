@@ -24,8 +24,7 @@ FILE *get_list_directory(char *value)
         return popen(new_cmd, "r");
     }
     free(new_cmd);
-    return popen("ls -l /home", "r");
-
+    return popen("ls -l", "r");
 }
 
 void send_list_data(clients_data_t *client, char *value)
@@ -64,4 +63,6 @@ void list_directory(char *value, clients_data_t *client, server_t *server)
         client->msg = "Here comes the directory listing\r\n";
         client->return_code = 150;
     }
+    close(client->data_fd);
+    client->data_fd = -1;
 }
