@@ -6,8 +6,8 @@ The purpose of the project is to develop an FTP server using C sockets and follo
   
 ## How to use it
 ```bash 
-git clone git@github.com:kbencherif/myfyp.git  
-cd myft  
+git clone git@github.com:kbencherif/myftpgit  
+cd myftp  
 make && ./myftp 8080 /path/to/directory
 ```
 
